@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+
+<project default="dist-turbograph" name="TURBOGRAPH JDBC Driver">
+    <property name="output" value="${basedir}/output"/>
+    <property file="${output}/build.properties" />
+    <property name="turbograph-jar-file" value="${basedir}/JDBC-${version}-turbograph.jar"/>
+    <property name="turbograph-src-jar-file" value="${basedir}/JDBC-${version}-turbograph-src.jar"/>
+    <property name="bin-turbograph" location="${output}/bin-turbograph"/>
+    <property name="src-turbograph" location="${output}/src-turbograph"/>
+    <property name="src" value="${basedir}/src"/>
+
+    <target name="init">
+    </target>
+
+    <target name="clean">
+        <delete failonerror="false" includeEmptyDirs="true">
+            <fileset dir="${bin-turbograph}"/>
+            <fileset dir="${src-turbograph}"/>
+            <fileset dir="${basedir}">
+                <include name="*.jar"/>
+            </fileset>
+        </delete>
+    </target>
+
+   <target name="src-jar-turbograph" depends="clean">
+        <mkdir dir="${bin-turbograph}"/>
+        <mkdir dir="${src-turbograph}"/>
+        <copy file="${output}/TURBOGRAPH-JDBC-${version}" tofile="${src-turbograph}/TURBOGRAPH-JDBC-${version}"/>
+        <copy todir="${src-turbograph}" filtering="true">
+            <fileset dir="${src}/jdbc">
+                <include name="**/*.java"/>
+            </fileset>
+            <filterset>
+                <filter token="JDBC_DRIVER_VERSION_STRING" value="${version}"/>
+            </filterset>
+        </copy>
+        <jar jarfile="${turbograph-src-jar-file}">
+            <fileset dir="${src-turbograph}"/>
+            <fileset file="${src}/jdbc/sql-error-codes.xml"/>
+            <service type="java.sql.Driver" provider="cubrid.jdbc.driver.CUBRIDDriver"/>
+        </jar>
+    </target>
+
+    <target name="compile-turbograph" depends="src-jar-turbograph">
+        <javac destdir="${bin-turbograph}" source="1.6" target="1.6" encoding="EUC-KR" debug="true" debuglevel="lines,source,vars" deprecation="off" includeantruntime="no">
+            <src path="${src-turbograph}"/>
+        </javac>
+    </target>
+
+    <target name="dist-turbograph" depends="compile-turbograph">
+        <jar jarfile="${turbograph-jar-file}">
+            <fileset dir="${bin-turbograph}"/>
+            <fileset file="${src}/jdbc/sql-error-codes.xml"/>
+            <fileset file="${output}/TURBOGRAPH-JDBC-${version}"/>
+            <service type="java.sql.Driver" provider="cubrid.jdbc.driver.CUBRIDDriver"/>
+        </jar>
+    </target>
+
+
+</project>
