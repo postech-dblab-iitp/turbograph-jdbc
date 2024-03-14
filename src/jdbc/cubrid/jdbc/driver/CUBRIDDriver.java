@@ -150,10 +150,10 @@ public class CUBRIDDriver implements Driver {
             throw new CUBRIDException(CUBRIDJDBCErrorCode.invalid_url, url, null);
         }
 
-        host = matcher.group(2);
-        portString = matcher.group(3);
-        db = matcher.group(4);
-        prop = matcher.group(7);
+        host = matcher.group(1);
+        portString = matcher.group(2);
+        db = matcher.group(3);
+        prop = matcher.group(6);
 
         UClientSideConnection u_con;
         String resolvedUrl;
@@ -171,12 +171,12 @@ public class CUBRIDDriver implements Driver {
 
         user = info.getProperty("user");
         if (user == null) {
-            user = matcher.group(5);
+            user = matcher.group(4);
         }
 
         pass = info.getProperty("password");
         if (pass == null) {
-            pass = matcher.group(6);
+            pass = matcher.group(5);
         }
 
         String filePath = System.getenv(ENV_JDBC_PROP_NAME);
