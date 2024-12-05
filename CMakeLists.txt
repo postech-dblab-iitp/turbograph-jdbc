@@ -24,7 +24,7 @@ message(STATUS "=========== JDBC ===========")
 
 # check enviroment
 include(FindJava)
-find_package(Java 1.6 COMPONENTS Development)
+find_package(Java 1.8 COMPONENTS Development)
 
 find_program(ANT ant PATHS $ENV{ANT_HOME} ENV PATH)
 if(NOT ANT)

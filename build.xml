@@ -43,7 +43,7 @@
     </target>
 
     <target name="compile-turbograph" depends="src-jar-turbograph">
-        <javac destdir="${bin-turbograph}" source="1.6" target="1.6" encoding="EUC-KR" debug="true" debuglevel="lines,source,vars" deprecation="off" includeantruntime="no">
+        <javac destdir="${bin-turbograph}" source="1.8" target="1.8" encoding="EUC-KR" debug="true" debuglevel="lines,source,vars" deprecation="off" includeantruntime="no">
             <src path="${src-turbograph}"/>
         </javac>
     </target>
